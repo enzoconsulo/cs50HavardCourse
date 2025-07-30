@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){   //change from "string" of cs50.h to "char *"
         }
 
         for(int j = 0; j < 26 ; j++){
-            if(key[j] == keyPrompt[i]){
+            if(tolower(key[j]) == tolower(keyPrompt[i])){
                  printf("Key must not contain repeated characters\n");   //i know for into a while is ugly to implements, but i need to traverse the key array to found repeatable chars
                  return 1;                        //handling possible exception
             }
@@ -69,7 +69,7 @@ char formula(char c, char key[]){
             lowerCase = 0;
         }
 
-        char newletter = key[(int) c];    //modulo of (c + key) , to get the values in case of past 'z'/25
+        char newletter = key[(int) c];    //get corresponding key value with index "(int) c"
 
         if(lowerCase == 1){
             newletter = tolower(newletter);
