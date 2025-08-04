@@ -13,9 +13,9 @@ Inspired by the [CS50 Mario specification](https://cs50.harvard.edu/x/2025/psets
 
 clang -o mario      mario.c      -lcs50
 clang -o mario_challenge mario_challenge.c -lcs50
-# or:
+->or:
 make mario
-make mario_more
+make mario_challenge
 
 ## Usage
 ./mario       # enter height 1–8, prints right-aligned pyramid
