@@ -1,10 +1,26 @@
 # MARIO C PROJECT
 
-Console-based pyramid generators in C (CS50 Pset 1)
+**Console-based Pyramid Generators in C (CS50 Pset 1)**
 
-Inspired by the CS50 Mario specification:
-- Half-pyramid: https://cs50.harvard.edu/x/psets/1/mario/less/
-- Full-pyramid: https://cs50.harvard.edu/x/psets/1/mario/more/
+Seguindo a especificação CS50 Mario:  
+- Half-pyramid: https://cs50.harvard.edu/x/psets/1/mario/less/  
+- Full-pyramid: https://cs50.harvard.edu/x/psets/1/mario/more/  
+
+## Features
+- **Half-pyramid** (`mario.c`): right-aligned, height 1–8  
+- **Full-pyramid** (`mario_more.c`): double, gap de 2 espaços, height 1–8  
+- Input validation until is valid
+
+## Technologies
+- C (ISO C11)  
+- CS50 Library (`get_int`)  
+- GCC/Clang, Unix-like (Linux, macOS, WSL)
+
+## What I Learned
+- **Validação de entrada** com `do…while`  
+- **Loops aninhados** para espaços e `#`  
+- **Modularização** em funções  
+- **Linkagem** de bibliotecas (`-lcs50`)
 
 ## Files
 
