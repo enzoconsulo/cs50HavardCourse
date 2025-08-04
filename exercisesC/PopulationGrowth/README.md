@@ -3,7 +3,7 @@
 **Console-based Population Growth Simulation in C (CS50 Pset 1)**
 
 Inspired by the CS50 Population specification:  
-https://cs50.harvard.edu/x/psets/1/population/
+[https://cs50.harvard.edu/x/psets/1/population/](https://cs50.harvard.edu/x/2021/labs/1/population/)
 
 ## Features
 - Prompts for **starting population** ≥ 9  
