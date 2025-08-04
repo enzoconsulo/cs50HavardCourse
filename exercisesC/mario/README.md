@@ -2,7 +2,9 @@
 
 Console-based pyramid generators in C (CS50 Pset 1)
 
-Inspired by the [CS50 Mario specification](https://cs50.harvard.edu/x/2025/psets/1/mario/).
+Inspired by the CS50 Mario specification:
+- Half-pyramid: https://cs50.harvard.edu/x/psets/1/mario/less/
+- Full-pyramid: https://cs50.harvard.edu/x/psets/1/mario/more/
 
 ## Files
 
