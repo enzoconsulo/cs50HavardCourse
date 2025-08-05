@@ -18,6 +18,13 @@ typedef struct
     int loser;
 } pair;
 
+//declare to use in sort_pairs
+typedef struct{
+        int winner;
+        int loser;
+        int strength;
+}strength;
+
 // Array of candidates
 string candidates[MAX];
 pair pairs[MAX * (MAX - 1) / 2];
@@ -32,6 +39,8 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+
+void bubbleSort(strength arr[], int n);
 
 int main(int argc, string argv[])
 {
@@ -119,7 +128,7 @@ void record_preferences(int ranks[])
             int before = ranks[i];  // gets the candidate at the current higher preference
             int after  = ranks[j];  // gets the candidate at the lower preference
 
-            preferences[before][after]++; // record that 'before' is preferred over 'after' by incrementing their pair count
+            preferences[before][after]++; // record that "before" is preferred over "after" by incrementing their pair count
         }
     }
     return;
@@ -129,14 +138,75 @@ void record_preferences(int ranks[])
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    // TODO
+    pair_count = 0;
+
+    for(int i = 0 ; i < candidate_count ; i++){
+        for(int j = i + 1 ; j < candidate_count ; j++){     //just need to this elements to compare:  0 (1)(2)
+                                                                                                //   (1) 0 (1)  and this for iterate only in non-diagonal elements,
+            int winner = 0;                                                                     //   (0)(1) 0   also compare with otherside elements. resulting in the pairs
+            int loser = 0;
+
+            if(preferences[i][j] == preferences[j][i]){         //if has equals preferences number, has no winner or loser. So get the next j iterate
+                continue;
+            }else if(preferences[i][j] > preferences[j][i]){
+                winner = i;
+                loser = j;                                      //determines the candidate index of winner and loser in pair
+            }else if(preferences[i][j] < preferences[j][i]){
+                winner = j;
+                loser = i;
+            }
+
+            pairs[pair_count].winner = winner;
+            pairs[pair_count].loser = loser;
+            pair_count++;
+
+        }
+    }
+    //for(int i = 0 ; i < pair_count ; i++){
+    //    printf("\n%i : \n winner: %i", i , pairs[i].winner);         //if you want to see the pairs(used to debug)
+    //    printf("loser: %i\n", pairs[i].loser);
+    //}
     return;
 }
 
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    // TODO
+    strength stg[pair_count];
+
+    for(int i = 0 ; i < pair_count ; i++){
+
+        int winnerIndex = pairs[i].winner;
+        int loserIndex = pairs[i].loser;
+
+        stg[i].winner = winnerIndex;
+        stg[i].loser = loserIndex;
+
+        stg[i].strength = preferences[winnerIndex][loserIndex] - preferences[loserIndex][winnerIndex];
+    }
+
+    bubbleSort(stg, pair_count);
+
+    for(int i = 0 ; i < pair_count ; i++){
+
+        pairs[i].winner = stg[i].winner;
+        pairs[i].loser = stg[i].loser;
+    }
+
+
+    // if want to see the final results in pairs[]:
+    //printf("\nArray pairs[] reordenado:\n");
+    //for (int i = 0; i < pair_count; i++) {
+    //   int w = pairs[i].winner;
+    //    int l = pairs[i].loser;
+    //    int s = preferences[w][l] - preferences[l][w];
+    //    printf("  [%2d] winner=%2d  loser=%2d  strength=%3d\n",
+    //        i,
+    //        w,
+    //        l,
+    //        s);
+    //}
+
     return;
 }
 
@@ -152,4 +222,23 @@ void print_winner(void)
 {
     // TODO
     return;
+}
+
+
+
+
+
+//used in sort pairs. Used bubble sort bcs is easier to implements and don't has enogth length to use a complex algorithm
+void bubbleSort(strength arr[], int n) {
+    int i, j;
+
+    for (i = 0; i < n - 1; i++) {
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j].strength < arr[j + 1].strength) {         //compare the stregnth of victory in pair(biggest first)
+                strength temp = arr[j];                         // Swap if they are in the wrong order
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
 }
