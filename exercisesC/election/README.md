@@ -42,8 +42,8 @@ election/
 ├─ tideman.c # ranked-pairs (Tideman) voting
 └─ README.md # this file
 ```
-```
 ## Compile & Run
+```
 # Compile all
 clang -o plurality plurality.c -lcs50
 clang -o runoff    runoff.c    -lcs50
