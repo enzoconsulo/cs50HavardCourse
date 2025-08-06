@@ -27,13 +27,14 @@ https://cs50.harvard.edu/x/2021/psets/2/readability/
 - **Conditional formatting:** handling edge cases for very high/low grades
 
 ## Structure
+```
 readability/
 ├─ readability.c # implements text analysis and index calculation
 └─ README.txt # this file
-
+```
 
 ## Compile & Run
-
+```
 # Compile
 clang -o readability readability.c -lcs50
 # or, if using CS50’s Makefile:
@@ -43,10 +44,10 @@ make readability
 ./readability
 1. Enter your text when prompted.
 2. View the grade level output.
-
+```
 ## Notes
--No additional libraries beyond CS50 required
--Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
--All I/O via terminal; no GUI
+- No additional libraries beyond CS50 required
+- Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
+- All I/O via terminal; no GUI
 
 — Enzo C. Consulo, CS50 2025
