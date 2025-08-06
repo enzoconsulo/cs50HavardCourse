@@ -24,12 +24,13 @@ Inspired by the CS50 Population specification:
 - **Modular code**: separating I/O and logic into clear steps  
 
 ## Structure
+```
 PopulationGrowth/
 ├─ population.c # population growth simulation
 └─ README.txt # this file
-
+```
 ## Compile & Run
-
+```
 # Compile
 clang -o population population.c -lcs50
  or
@@ -42,5 +43,5 @@ Enter a starting size (integer ≥ 9).
 Enter an ending size (integer ≥ start).
 
 Program outputs the number of years until target reached.
-
+```
 — Enzo C. Consulo, CS50 2025
