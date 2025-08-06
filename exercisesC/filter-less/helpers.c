@@ -34,6 +34,16 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    for(int i = 0 ; i < height ; i++){      //for each pixel in image
+        for(int j = 0 ; j < width/2 ; j++){ // considering that is a mutual change, "j" only want to traverse to te middle the vector
+
+            RGBTRIPLE temp = image[i][j];         //put the image of the left(consider width/2) pixel in a temp variable
+
+            image[i][j] = image[i][width-j];      // set the left pixel with the right pixel
+
+            image[i][width-j] = temp;             // set the right pixel with left value(that was before added to temp)
+        }
+    }
     return;
 }
 
