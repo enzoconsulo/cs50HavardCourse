@@ -23,12 +23,13 @@ https://cs50.harvard.edu/x/2021/labs/2/
 - **Modular Code:** separating score calculation into its own function
 
 ## Structure
+```
 scrabble/
 ├─ scrabble.c # main program and scoring logic
 └─ README.txt # this file
-
+```
 ## Compile & Run
-
+```
 # Compile
 clang -o scrabble scrabble.c -lcs50
 # or, with Makefile:
@@ -42,10 +43,10 @@ $ ./scrabble
 Player 1: HELLO!
 Player 2: world?
 Player 1 wins!
-
+```
 ## Notes
--Uses -lcs50 to link CS50’s library
--Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
--All I/O via terminal; no GUI
+- Uses -lcs50 to link CS50’s library
+- Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
+- All I/O via terminal; no GUI
 
 — Enzo C. Consulo, CS50 2025
