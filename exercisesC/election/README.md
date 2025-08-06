@@ -35,11 +35,13 @@
 - **Modularization:** breaking each voting method into clear functions  
 
 ## Structure
+```
 election/
 ├─ plurality.c # first-past-the-post voting
 ├─ runoff.c # instant-runoff voting
 ├─ tideman.c # ranked-pairs (Tideman) voting
 └─ README.md # this file
+```
 
 ## Compile & Run
 # Compile all
