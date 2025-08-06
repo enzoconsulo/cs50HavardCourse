@@ -41,6 +41,7 @@ void lock_pairs(void);
 void print_winner(void);
 
 void bubbleSort(strength arr[], int n);
+bool createCycle(int winner, int loser);
 
 int main(int argc, string argv[])
 {
@@ -213,19 +214,34 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    // TODO
+    for(int i = 0 ; i < pair_count ; i++){
+        if(createCycle(pairs[i].winner, pairs[i].loser ) == false){
+            locked[pairs[i].winner][pairs[i].loser] = true;       //if has not a cycle in actual graph "locked", set this node in a directed graph true
+        }
+    }
     return;
 }
 
 // Print the winner of the election
 void print_winner(void)
 {
-    // TODO
+    //to determine the winner, i'll search who is the candidate that hasn't no true in his locked column. meaning that he is a source
+    for(int i = 0 ; i < candidate_count ; i++){
+        for(int j = 0 ; j < candidate_count ; j++){
+            if(locked[j][i] == true){
+                break;
+            }
+            if(j == (candidate_count - 1) ){ //if is the last column and not break. thats a source and too the winner
+
+                printf("\nThe winner of election is :\n   %s\n",candidates[i]);
+            }
+        }
+    }
     return;
 }
 
 
-
+// ________________________________________________________Functions used in others functions____________________________________________________________
 
 
 //used in sort pairs. Used bubble sort bcs is easier to implements and don't has enogth length to use a complex algorithm
@@ -241,4 +257,19 @@ void bubbleSort(strength arr[], int n) {
             }
         }
     }
+}
+
+
+bool createCycle(int winner, int loser){
+    if(winner == loser) return true;               //base case, in case that return into the original winner leaving from losers path
+                                                   //(means that has a cycle, in case of reach the original winner)
+    for(int i = 0 ; i < candidate_count ; i++){
+        if(locked[loser][i] == true){              //get all the losers paths and calls createCycle again with his losers
+            if(createCycle(winner,i) == true){     // until(or not) reach the original winner, who always be passed as first element.
+                return true;                       // allowing to reach all the way in all paths in locked until reach (or not) the source winner to detect a cycle
+            }
+        }
+    }
+
+    return false;                                   // if travel all the paths don't reach the original winner, thats not a cycle!
 }
