@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include <math.h> // to use round() in sepia
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -28,6 +29,28 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
 // Convert image to sepia
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
+    for(int i = 0 ; i < height ; i++){//for each pixel in image, apply the formula to each color
+        for(int j = 0 ; j < width ; j++){
+
+            BYTE originalRed = image[i][j].rgbtRed;
+            BYTE originalGreen = image[i][j].rgbtGreen;    //set the original colors to variables to multiply in sepia formula(just to comfort, but can also use directly in formula)
+            BYTE originalBlue = image[i][j].rgbtBlue;
+
+            //sepia formula:
+            int sepiaRed = round((0.393 * originalRed) + (0.769 * originalGreen) + (0.189 * originalBlue));
+            int sepiaGreen = round((0.349 * originalRed) + (0.686 * originalGreen) + (0.168 * originalBlue)); //provided in the exercise statement
+            int sepiaBlue = round((0.272 * originalRed) + (0.534 * originalGreen) + (0.131 * originalBlue));  //used "round" to get the rounded integer (as asked in exercise statement)
+
+            if (sepiaRed > 255) sepiaRed = 255;
+            if (sepiaGreen > 255) sepiaGreen = 255;  //check if any value exceed 255 (max value to a color index)
+            if (sepiaBlue > 255) sepiaBlue = 255;
+
+
+            image[i][j].rgbtRed = sepiaRed;
+            image[i][j].rgbtGreen = sepiaGreen;      //set after formula color to this pixel
+            image[i][j].rgbtBlue = sepiaBlue;
+        }
+    }
     return;
 }
 
