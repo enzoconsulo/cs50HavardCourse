@@ -32,14 +32,15 @@
 - **Control Flow:** nested loops, conditionals, and switch statements  
 
 ## Files
+```
 coins/
 ├─ coins.c # Cash change (greedy algorithm)
 ├─ coinsCredit.c # Credit card validator (Luhn’s algorithm)
 └─ README.md # This file
-
+```
 
 ## Compile & Run
-
+```
 # Compile
 clang -o cash   coins.c       -lcs50 -lm
 clang -o credit coinsCredit.c -lcs50 -lm
@@ -60,7 +61,7 @@ Change owed: 0.41
 $ ./credit
 Number: 378282246310005
 AMEX
-
+```
 ## Notes
 - Link math library with -lm for round()
 - Tested on Ubuntu 22.04 & macOS Monterey
