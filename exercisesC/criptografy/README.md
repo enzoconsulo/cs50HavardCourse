@@ -31,13 +31,14 @@
 - **Modularization:** separating validation and encryption logic into functions  
 
 ## Structure
+```
 criptografy/
 ├─ caesar.c # implements Caesar cipher
 ├─ substitution.c # implements Substitution cipher
 └─ README.txt # this file
-
+```
 ## Compile & Run
-
+```
 # Compile
 clang -o caesar       caesar.c       -lcs50
 clang -o substitution substitution.c -lcs50
@@ -55,10 +56,10 @@ ciphertext: Khoor, Zruog!
 ./substitution VCHPRZGJNTLSKFBDQWAXEUYMOI
 plaintext:  Hello, World!
 ciphertext: Jrssb, Ybwsp!
-
+```
 ## Notes
--Both programs link CS50’s library with -lcs50
--Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
--All I/O via terminal; no GUI
+- Both programs link CS50’s library with -lcs50
+- Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
+- All I/O via terminal; no GUI
 
 — Enzo C. Consulo, CS50 2025
