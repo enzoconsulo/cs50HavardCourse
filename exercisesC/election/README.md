@@ -42,7 +42,7 @@ election/
 ├─ tideman.c # ranked-pairs (Tideman) voting
 └─ README.md # this file
 ```
-
+```
 ## Compile & Run
 # Compile all
 clang -o plurality plurality.c -lcs50
@@ -58,9 +58,10 @@ make tideman
 ./plurality Alice Bob Charlie
 ./runoff    Alice Bob Charlie
 ./tideman   Alice Bob Charlie
-Notes
--Uses CS50’s -lcs50 library for I/O
--Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
--All I/O via terminal; no GUI
+```
+## Notes
+- Uses CS50’s -lcs50 library for I/O
+- Tested on Ubuntu 22.04 & macOS Monterey (GCC 11, Clang 14)
+- All I/O via terminal; no GUI
 
 — Enzo C. Consulo, CS50 2025
