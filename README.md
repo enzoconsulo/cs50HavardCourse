@@ -12,7 +12,9 @@ exercisesC/
 ├─ scrabble/            # Scrabble scoring lab (CS50 Lab 2)
 ├─ criptografy/         # Caesar & Substitution ciphers (CS50 Pset 2)
 ├─ readability/         # Text readability calculator (CS50 Pset 2)
-└─ election/            # Voting simulations (CS50 Pset 3)
+├─ election/            # Voting simulations (CS50 Pset 3)
+├─ filter-less/         # BMP image filters (CS50 Pset 4)
+└─ recover/             # JPEG forensic recovery (CS50 Pset 4)
 ```
 
 ## 📖 Exercises Overview
@@ -47,6 +49,12 @@ exercisesC/
   * **runoff.c**: Instant-runoff voting.
   * **tideman.c**: Ranked-pairs (Tideman) voting.
     Covers arrays, preference matrices, cycle detection, and various voting algorithms.
+
+* [Filter-Less (Pset 4)](exercisesC/filter-less)
+  Applies basic image filters (grayscale, sepia, reflect, blur) to BMPs using `helpers.c`. Covers file I/O with BMP headers, pixel manipulation, edge-case handling, and image processing logic.
+
+* [Recover (Pset 4)](exercisesC/recover)
+  Scans a forensic image for JPEG signatures and recovers each photo block-by-block. Covers binary file I/O, header detection, dynamic file creation, and buffer management.
 
 ---
 
