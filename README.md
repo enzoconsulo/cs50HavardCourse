@@ -14,7 +14,8 @@ exercisesC/
 ├─ readability/         # Text readability calculator (CS50 Pset 2)
 ├─ election/            # Voting simulations (CS50 Pset 3)
 ├─ filter-less/         # BMP image filters (CS50 Pset 4)
-└─ recover/             # JPEG forensic recovery (CS50 Pset 4)
+├─ recover/             # JPEG forensic recovery (CS50 Pset 4)
+└─ volume/              # Audio volume modifier (CS50 Lab 4)
 ```
 
 ## 📖 Exercises Overview
@@ -41,7 +42,7 @@ exercisesC/
     Covers command-line argument parsing, ASCII arithmetic, and modular code design.
 
 * [Readability (Pset 2)](exercisesC/readability)
-  Computes the Coleman-Liau index for text readability. Covers text analysis, character classification, and floating-point calculations.
+  Computes the Coleman‑Liau index for text readability. Covers text analysis, character classification, and floating-point calculations.
 
 * [Election (Pset 3)](exercisesC/election)
 
@@ -55,6 +56,23 @@ exercisesC/
 
 * [Recover (Pset 4)](exercisesC/recover)
   Scans a forensic image for JPEG signatures and recovers each photo block-by-block. Covers binary file I/O, header detection, dynamic file creation, and buffer management.
+
+* [Volume (Lab 4)](exercisesC/volume)
+  Modifies the amplitude of a WAV file by a factor provided by the user. Covers WAV header parsing, reading/writing 16-bit samples, scaling and clipping sample values, and binary file I/O.
+
+## 📚 What each Pset represents in CS50
+
+* **Pset 1 — Foundations (C & basic programming concepts)**
+  Introduces C syntax, conditionals, loops, functions, and console I/O. Early problems (Mario, Cash, Population) focus on algorithmic thinking, input validation, and basic data manipulation.
+
+* **Pset 2 — Strings, Arrays & Data Processing**
+  Builds on C fundamentals with string handling, arrays, command-line arguments, and text processing (e.g., Caesar, Substitution, Readability). Emphasizes careful character-level logic and edge-case handling.
+
+* **Pset 3 — Algorithms & Data Structures**
+  Introduces more advanced problem solving: preference matrices, sorting, graph concepts, and cycle detection (e.g., Plurality, Runoff, Tideman). Focuses on building correct, efficient algorithms and using structs/2D arrays.
+
+* **Pset 4 — Memory & File I/O / Systems Programming**
+  Moves into binary file manipulation, pointers, and memory layout. Labs and problems (Filter, Recover, Volume) teach how to read/write file formats (BMP, WAV), manipulate raw bytes, and manage buffers safely.
 
 ---
 
