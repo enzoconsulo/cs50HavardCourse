@@ -2,6 +2,9 @@
 
 #include <ctype.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "dictionary.h"
 
@@ -26,7 +29,7 @@ bool check(const char *word)
     strcpy(wordLowerCase, word);                           //need to cpy the string word bcs is a const and cannot modify directly
 
     for(int i = 0; wordLowerCase[i] != '\0' ; i++){
-        wordLowerCase[i] = tolower(wordLowerCase[i]);      //get lower case to use in hash(all the words in dictionary is in lowercase, so, doing that none hashcode will be diffent bcs of a different case independently of hash function logic)
+        wordLowerCase[i] = tolower(wordLowerCase[i]);      //get lower case to use in hash(all the words in dictionary is in lowercase, so, doing that none hashcode will be diffent bcs of a different case, independently of hash function logic)
     }
 
 
@@ -110,7 +113,7 @@ unsigned int size(void)
         }
     }
 
-    if(load = false){
+    if(load == false){
         return 0;                                   //if wasn't found any bucket in table, is empty. return 0
     }
 
@@ -124,10 +127,15 @@ unsigned int size(void)
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
+void freeBucket(node *n);
 bool unload(void)
 {
     // TODO
-    return false;
+    for(int i = 0 ; i < N ; i++){
+        freeBucket(table[i]);                       //thats no error to treat here, i dont know why they asked to return false
+    }
+
+    return true;
 }
 
 /*int getDeep(node *n){
@@ -158,6 +166,16 @@ int getDeep(node *n){
         int x = getDeep(tmp->next);
         sum +=(x+2);
         return sum;
+    }
+}
+
+void freeBucket(node *n){
+    node *tmp;
+
+    while(n != NULL){
+        tmp = n;
+        n = n->next;
+        free(tmp);
     }
 }
 
