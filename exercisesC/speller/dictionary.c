@@ -22,7 +22,29 @@ node *table[N];
 bool check(const char *word)
 {
     // TODO
-    return false;
+    char wordLowerCase[LENGTH + 1];
+    strcpy(wordLowerCase, word);                           //need to cpy the string word bcs is a const and cannot modify directly
+
+    for(int i = 0; wordLowerCase[i] != '\0' ; i++){
+        wordLowerCase[i] = tolower(wordLowerCase[i]);      //get lower case to use in hash(all the words in dictionary is in lowercase, so, doing that none hashcode will be diffent bcs of a different case independently of hash function logic)
+    }
+
+
+    int index = hash(wordLowerCase);        //hash the word to get the exacly index that was deposit the dictionary word.
+                                            //(if does't exist this word in dictionary. probably will get a random index)
+                                            //            (but whatever, this will not found the word anyway)
+
+    node *n = table[index];                 //creates a node to iterate through a bucket in table. And set his pointer to first element on this bucket
+
+    while(n != NULL){
+        if (strcmp(wordLowerCase, n->word) == 0){
+            return true;                            //if found, return true
+        }
+
+        n = n->next;                                //if isn't this element, get the next one
+    }
+
+    return false;                                   //if none element is equal in this bucket, return false
 }
 
 // Hashes word to a number
@@ -138,3 +160,4 @@ int getDeep(node *n){
         return sum;
     }
 }
+
