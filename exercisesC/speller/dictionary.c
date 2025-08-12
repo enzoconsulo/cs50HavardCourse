@@ -16,7 +16,7 @@ typedef struct node
 } node;
 
 // TODO: Choose number of buckets in hash table
-const unsigned int N = 26;
+const unsigned int N = 150000;
 
 // Hash table
 node *table[N];
@@ -54,8 +54,22 @@ bool check(const char *word)
 unsigned int hash(const char *word)
 {
     // TODO: Improve this hash function
-    return (word[0]) - 'a'; //initial model just to see( ordering by alphabet index 0-26)
+    int hash = 0;
+
+    for(int i = 0 ; word[i] != '\0'; i++){
+
+        if (isalpha(word[i]))                           //sum the formula for each character in word in hash. (all of this is to generate most random number possible, cosidering that we can get this after too)
+        {
+            int ascii = tolower(word[i]) - 'a';
+            hash = (hash * 7 + ascii) % N;              //using a aleatory hash generator. Choosed to use prime number to generate most aleatory
+        }                                               //  pattern as possible.
+    }
+    return hash;
+    //  if you hasn't much memory to allocate to table, is better use a smaller N and adjust to this following function:
+    //return (word[i]) - 'a';
+    //  but remember, as bigger the N ,bigger is the memory used in hash table, and faster it will be. (unless if N is bigger than size of dictionary)
 }
+
 
 // Loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
