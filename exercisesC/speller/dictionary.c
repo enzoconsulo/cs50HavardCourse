@@ -43,7 +43,7 @@ bool load(const char *dictionary)
 
     char word[LENGTH + 1];                        //declares a buffer to store readed words
 
-    int indexLetter;                              //declare here to use in all the elements on loop
+    int index;                                    //declare here to use in all the elements on loop
 
     while(fscanf(input, "%s", word) != EOF){      //read the file until find "EOF" : end of file. word by word(LENGTH+1)
 
@@ -56,16 +56,16 @@ bool load(const char *dictionary)
 
         strcpy(n->word, word);                    //copy the string in word to word field in node "n"
 
-        indexLetter = hash(word);                 //apply the hashcode function
+        index = hash(word);                       //apply the hashcode function
 
-        if(table[indexLetter] == NULL){
+        if(table[index] == NULL){
             n->next = NULL;                       //if is the first element in this table[index] add it and set his "next" field to NULL
-            table[indexLetter] = n;
+            table[index] = n;
 
         }else{                                    //if wasn't the first element in this table[index]
 
-            n->next = table[indexLetter];         //set "next" field on node to actual element index on table
-            table[indexLetter] = n;               //set the table[index] pointer to "n" node
+            n->next = table[index];               //set "next" field on node to actual element index on table
+            table[index] = n;                     //set the table[index] pointer to "n" node
 
         }
 
@@ -76,10 +76,29 @@ bool load(const char *dictionary)
 }
 
 // Returns number of words in dictionary if loaded, else 0 if not yet loaded
+int getDeep(node *n);                               //declares identifier to getDeep function that is in the bottom
+
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    bool load = false;                              //using a bool variable to determine if is loaded
+
+    for(int i = 0 ; i < N ; i++){
+        if(table[i] != NULL){
+            load = true;                            //if any element of hash table was not empty, set load to true(indicating that is loaded)
+        }
+    }
+
+    if(load = false){
+        return 0;                                   //if wasn't found any bucket in table, is empty. return 0
+    }
+
+    int totalSize = 0;
+
+    for(int i = 0 ; i < N ; i++){
+        totalSize += getDeep(table[i]);             //calculates the total size of dictionary(elements in each hash table index)
+    }
+
+    return totalSize;                               //return the size
 }
 
 // Unloads dictionary from memory, returning true if successful, else false
@@ -87,4 +106,35 @@ bool unload(void)
 {
     // TODO
     return false;
+}
+
+/*int getDeep(node *n){
+
+    int sum = 0;
+
+    if(n == NULL){
+        return 0;                               //in theory is the same big O of the function under. But i'll maintain
+    }else{                                                          the second function to see results
+        int x = getDeep(n->next);
+        sum +=(x+1);
+        return sum;
+    }
+}
+*/
+int getDeep(node *n){
+
+    int sum = 0;
+    if (n == NULL){
+        return 0;
+    }
+                                                    //basiclly this recursive function acts verifying the actual node is NULL (that indicats the end)
+    node *tmp = n->next;                            // and if the next node for actual is NULL
+                                                    // by the way, if wasn't found the NULL node. call another function to the 3rd node
+    if(tmp == NULL){                                // considering that doesn't matter the values from nodes(words) to calculate the size, we can just search 2 by 2 elements until found NULL
+        return 1;                                   // *observation: this trick to return 0 or 1 is bcs analysing 2 by 2 elements, we can found on the first element or second
+    }else{                                          //                and to get a sucessfull sum, we need to treat this. (likely adding odd or even to the last sum value)
+        int x = getDeep(tmp->next);
+        sum +=(x+2);
+        return sum;
+    }
 }
