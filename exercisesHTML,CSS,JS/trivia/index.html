@@ -7,6 +7,52 @@
         <title>Trivia!</title>
         <script>
             // TODO: Add code to check answers to questions
+                document.addEventListener("DOMContentLoaded", function() {
+                let david = document.querySelector('#david');
+                let wrong1 = document.querySelector('#wrong1');
+                let wrong2 = document.querySelector('#wrong2');
+                let wrong3 = document.querySelector('#wrong3');
+                let wrong4 = document.querySelector('#wrong4');
+
+                david.onclick = function() {
+                    david.style.backgroundColor = 'green';
+                    alert("RIGHT!!");
+                };
+
+                wrong1.onclick = function() {
+                    wrong1.style.backgroundColor = 'red';
+                    alert("WRONG!");
+                };
+                wrong2.onclick = function() {
+                    wrong2.style.backgroundColor = 'red';
+                    alert("WRONG!");
+                };
+                wrong3.onclick = function() {
+                    wrong3.style.backgroundColor = 'red';
+                    alert("WRONG!");
+                };
+                wrong4.onclick = function() {
+                    wrong4.style.backgroundColor = 'red';
+                    alert("WRONG!");
+                };
+
+            });
+
+
+            function checkAnswer(){
+                let answer = document.querySelector('#part2')
+
+                if(answer.value.toLowerCase().trim() == "washington"){
+                    alert("Right Answer!!")
+                    answer.style.backgroundColor = 'green'
+                }else{
+                    alert("Wrong Answer!")
+                }
+
+
+            }
+
+
 
         </script>
     </head>
@@ -20,6 +66,17 @@
                 <h2>Part 1: Multiple Choice </h2>
                 <hr>
                 <!-- TODO: Add multiple choice question here -->
+                 <h3>What is the name from CC50 teacher?</h3>
+                 <div>
+                    <center>
+                        <button id="wrong1" type="button">Jensen Z. Malakai</button>
+                        <button id="wrong2" type="button">Gerry M. Israel</button>
+                        <button id="wrong3" type="button">Esmond C. Murray</button>
+                        <button id="david" type="button">David J. Malan</button>
+                        <button id="wrong4" type="button">Donald B. Winslow</button>
+                    </center>
+
+                 </div>
 
             </div>
 
@@ -27,7 +84,11 @@
                 <h2>Part 2: Free Response</h2>
                 <hr>
                 <!-- TODO: Add free response question here -->
-                 
+                <h3>What is the capital from EUA</h3>
+                <form>
+                    <input id="part2" type="text">
+                    <button type="button" onclick=checkAnswer()>Check Awnser</button>
+                </form>
             </div>
         </div>
     </body>
