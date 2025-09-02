@@ -1,0 +1,12 @@
+body {
+    background-color: rgb(250, 255, 106);
+}
+
+#toptitle {
+    background-color: rgb(238, 141, 13);
+    color: rgb(22, 15, 12);
+}
+
+#biotext {
+    font-size: large;
+}
