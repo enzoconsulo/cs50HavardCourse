@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -106,14 +106,34 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        return redirect(url_for("quoted", symbol=symbol))
+        
+    return render_template("quote.html")
+
+@app.route("/quoted/<symbol>", methods=["GET"])
+@login_required
+def quoted(symbol):
+    """Get stock quote."""
+    search = lookup(symbol)
     
-    return apology("TODO")
+    if(search != None):
+        return render_template("quoted.html",search = search , searchprice=usd(search["price"]))
+    
+    elif (symbol == "quote.html"):
+        return redirect("/quote")
+    
+    else:
+        flash("Quote '"+ symbol +"' not found")
+        return redirect("/quote")
+    
+
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    query=[]
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
