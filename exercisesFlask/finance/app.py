@@ -106,14 +106,29 @@ def logout():
 @login_required
 def quote():
     """Get stock quote."""
+    
     return apology("TODO")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    
-    return apology("TODO")
+    query=[]
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        print(username,password)
+        query = db.execute("SELECT username FROM users WHERE username = ?",username)
+        
+        if(len(query) == 0):
+            db.execute("INSERT INTO users (username,hash) VALUES (?,?)",username,generate_password_hash(password))
+            return redirect("/login")
+        else:
+            flash("This username is already used!")
+            return redirect("/register")
+        
+    return render_template("register.html")
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -121,3 +136,5 @@ def register():
 def sell():
     """Sell shares of stock"""
     return apology("TODO")
+
+    

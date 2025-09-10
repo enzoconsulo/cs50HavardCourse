@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+       
+{% block main %}
+
+    <section>
+        <form action="/register" method="post" id="registerform">
+            <div class="mb-3">
+                <input type="text" placeholder="username" id="username" name="username" autocomplete="off" autofocus class="form-control mx-auto w-auto">
+            </div>
+
+            <div>
+                <input type="password" placeholder="password" id="password" name="password" autocomplete="off" class="form-control mx-auto w-auto">
+            </div>
+            <div class="mb-3">
+                <ul style="display: none; margin: 0; padding: 0; list-style-position: inside; color: red;" id="passwordrequest"  >
+                    <li>A senha deve ter 8 ou mais digitos</li>
+                    <li>A senha deve ter ao menos 1 numero</li>
+                </ul>
+            </div>
+            
+            <button type="submit" class="btn btn-primary"> Register</button>
+        </form>
+    </section>
+    
+    <script>
+
+        document.addEventListener("DOMContentLoaded",function() {
+
+            document.addEventListener("submit",function() {
+                let password = document.querySelector("#password").value;
+                let username = document.querySelector("#username").value
+
+                const haveLetter = /[a-zA-Z]/.test(password);
+                const haveNumber = /[0-9]/.test(password);
+
+                if (username == ""){
+                    event.preventDefault();
+                    alert("The username cannot be empty");
+                }else if (password.length < 8){
+                    event.preventDefault();
+                    alert("The password has to be bigger or equal to 8");
+                    const passwordrequest = document.querySelector("#passwordrequest");
+                    passwordrequest.style.display='block';
+
+                }else if(!haveLetter){
+                    event.preventDefault();
+                    alert("Must contain at least one letter");
+
+                }else if(!haveNumber){
+                    event.preventDefault();
+                    alert("Must contain at least one letter");
+                }
+            })
+        })
+        
+    </script>
+{% endblock %}
