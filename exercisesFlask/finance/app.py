@@ -119,13 +119,13 @@ def register():
         password = request.form.get("password")
         
         print(username,password)
-        query = db.execute("SELECT username FROM users WHERE username = ?",username)
         
-        if(len(query) == 0):
+        try:
             db.execute("INSERT INTO users (username,hash) VALUES (?,?)",username,generate_password_hash(password))
-            return redirect("/login")
-        else:
-            flash("This username is already used!")
+            flash("Account was succesfully created ! go Log In now!")
+            return redirect("/register")
+        except:
+            flash("This username is already used ! ")
             return redirect("/register")
         
     return render_template("register.html")

@@ -9,16 +9,18 @@
     <section>
         <form action="/register" method="post" id="registerform">
             <div class="mb-3">
-                <input type="text" placeholder="username" id="username" name="username" autocomplete="off" autofocus class="form-control mx-auto w-auto">
+                <input type="text" placeholder="Username" id="username" name="username" autocomplete="off" autofocus class="form-control mx-auto w-auto">
             </div>
 
             <div>
-                <input type="password" placeholder="password" id="password" name="password" autocomplete="off" class="form-control mx-auto w-auto">
+                <input type="password" placeholder="Password" id="password" name="password" autocomplete="off" class="form-control mx-auto w-auto">
+                <input type="password" placeholder="Confirm Password" id="confirmpassword" name="confirmpassword" autocomplete="off" class="form-control mx-auto w-auto">
             </div>
             <div class="mb-3">
                 <ul style="display: none; margin: 0; padding: 0; list-style-position: inside; color: red;" id="passwordrequest"  >
-                    <li>A senha deve ter 8 ou mais digitos</li>
-                    <li>A senha deve ter ao menos 1 numero</li>
+                    <li>The password must be bigger or equal than 8</li>
+                    <li>The password must be at least 1 number</li>
+                    <li>The "Password" and "Confirm Password" must be equals</li>
                 </ul>
             </div>
             
@@ -33,6 +35,7 @@
             document.addEventListener("submit",function() {
                 let password = document.querySelector("#password").value;
                 let username = document.querySelector("#username").value
+                let confirmpassword = document.querySelector('#confirmpassword').value
 
                 const haveLetter = /[a-zA-Z]/.test(password);
                 const haveNumber = /[0-9]/.test(password);
@@ -40,20 +43,33 @@
                 if (username == ""){
                     event.preventDefault();
                     alert("The username cannot be empty");
+                    return;
                 }else if (password.length < 8){
                     event.preventDefault();
                     alert("The password has to be bigger or equal to 8");
                     const passwordrequest = document.querySelector("#passwordrequest");
                     passwordrequest.style.display='block';
+                    return;
 
                 }else if(!haveLetter){
                     event.preventDefault();
-                    alert("Must contain at least one letter");
+                    alert("Password must contain at least one letter");
+                    passwordrequest.style.display='block';
+                    return;
 
                 }else if(!haveNumber){
                     event.preventDefault();
-                    alert("Must contain at least one letter");
+                    alert("Password must contain at least one letter");
+                    passwordrequest.style.display='block';
+                    return;
+
+                }else if(confirmpassword != password){
+                    event.preventDefault();
+                    alert("The passwords do not match");
+                    passwordrequest.style.display='block';
+                    return;
                 }
+                
             })
         })
         
