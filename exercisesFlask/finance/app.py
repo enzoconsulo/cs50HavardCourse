@@ -37,12 +37,93 @@ def index():
     """Show portfolio of stocks"""
     return apology("TODO")
 
-
+def isInteger(string):
+    if string.isdigit():
+        return True
+    
+    if not string[0].isdigit() and string[0] == '+' :
+        if string[1:].isdigit():
+            return True
+        
+    return False
+        
+    
 @app.route("/buy", methods=["GET", "POST"])
 @login_required
 def buy():
     """Buy shares of stock"""
-    return apology("TODO")
+    if request.method == "POST":
+        symbol = request.form.get("symbol").lower()
+        search = lookup(symbol)
+        
+        shares = request.form.get("shares")
+        
+        if symbol == "":
+            flash("'Quote Symbol' cannot be empty")
+            return redirect("/buy")
+        
+        elif search == None:
+            flash("Quote '"+ symbol +"' not found")
+            return redirect("/buy")
+        
+        elif shares == "":
+            flash("'Shares' cannot be empty")
+            return redirect("/buy")
+        
+        elif not isInteger(shares):
+            flash("Please type a positive integer")
+            return redirect("/buy")
+        
+        #   get the cash from user
+        cash = db.execute("SELECT cash FROM users"
+                        + " WHERE id = ?;" , session["user_id"])
+        
+        #   calculates total price from buy
+        price = search["price"] * int(shares)
+        if price <= cash[0]["cash"]:
+            
+            #   deduct total price from user cash
+            db.execute("UPDATE users"
+                    +  " SET cash = cash - ?"
+                    +  " WHERE id = ? ;",price,session["user_id"])
+            
+            #   if table "quote" does not exist, creates
+            # "quote" is the table to save amount of shares and his owners
+            db.execute("CREATE TABLE IF NOT EXISTS quote ("
+                        + "shares INT,"
+                        + "symbol VARCHAR(10),"
+                        + "owner_id INT,"
+                        + "FOREIGN KEY (owner_id) REFERENCES users(id) );"
+                    )
+            
+            sharesBuyed = db.execute("SELECT shares FROM quote WHERE symbol = ?",symbol)
+            
+            if sharesBuyed == []:
+                db.execute("INSERT INTO quote (shares,symbol,owner_id) VALUES (?,?,?)", int(shares) , symbol , session["user_id"] )
+            else:
+                db.execute("UPDATE quote SET shares = shares + ? WHERE owner_id = ?", int(shares), session["user_id"])
+                
+            #   if table "history" does not exist, creates
+            # "history" is the table to save history of buy shares and his owners
+            db.execute("CREATE TABLE IF NOT EXISTS history ("
+                        + "shares INT,"
+                        + "symbol VARCHAR(10),"
+                        + "owner_id INT,"
+                        + "date DATETIME,"
+                        + "FOREIGN KEY (owner_id) REFERENCES users(id) );"
+                    )
+            
+            db.execute("INSERT INTO history (shares,symbol,owner_id,date) VALUES (?,?,?,CURRENT_TIMESTAMP)", int(shares) , symbol , session["user_id"] )
+            
+            flash("Buyed!")
+            return redirect("/")
+        
+        else:
+            flash("Insuficient Balance!")
+            return redirect("/buy")
+
+
+    return render_template("buy.html")
 
 
 @app.route("/history")
@@ -107,7 +188,17 @@ def logout():
 def quote():
     """Get stock quote."""
     if request.method == "POST":
-        symbol = request.form.get("symbol")
+        symbol = request.form.get("symbol").lower()
+        search = lookup(symbol)
+        
+        if (symbol == ""):
+            flash("'Quote Symbol' cannot be empty")
+            return redirect("/quote")
+        
+        elif search == None:
+            flash("Quote '"+ symbol +"' not found")
+            return redirect("/quote")
+        
         return redirect(url_for("quoted", symbol=symbol))
         
     return render_template("quote.html")
