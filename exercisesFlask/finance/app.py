@@ -35,7 +35,33 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
+    noQuotes = False
+    search = {}
+    cash = 0
+    totalQuotesPrice = 0
+    try:
+        
+        search = db.execute("SELECT shares,symbol,price FROM quote WHERE owner_id = ?", session["user_id"])
+          
+        for quote in search:
+            
+            totalQuotesPrice += float(quote["price"]) * float(quote["shares"])
+            
+            quote["total"] = usd(float(quote["price"]) * float(quote["shares"]))
+            quote["price"] = usd(quote["price"])
+            
+        
+        search1 = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
+        cash = usd(search1[0]["cash"])
+        
+    except:
+        noQuotes = True
+        
+    if search == []:
+        noQuotes = True
+        
+    return render_template("index.html",quotes = search, noQuotes = noQuotes, cash = cash, totalQuotesPrice = usd(totalQuotesPrice))
+    
 
 def isInteger(string):
     if string.isdigit():
@@ -93,13 +119,14 @@ def buy():
                         + "shares INT,"
                         + "symbol VARCHAR(10),"
                         + "owner_id INT,"
+                        + "price DOUBLE,"
                         + "FOREIGN KEY (owner_id) REFERENCES users(id) );"
                     )
             
-            sharesBuyed = db.execute("SELECT shares FROM quote WHERE symbol = ?",symbol)
+            sharesBuyed = db.execute("SELECT shares FROM quote WHERE symbol = ? AND owner_id = ?",symbol, session["user_id"])
             
             if sharesBuyed == []:
-                db.execute("INSERT INTO quote (shares,symbol,owner_id) VALUES (?,?,?)", int(shares) , symbol , session["user_id"] )
+                db.execute("INSERT INTO quote (shares,symbol,owner_id,price) VALUES (?,?,?,?)", int(shares) , symbol , session["user_id"], search["price"] )
             else:
                 db.execute("UPDATE quote SET shares = shares + ? WHERE owner_id = ?", int(shares), session["user_id"])
                 
@@ -110,10 +137,11 @@ def buy():
                         + "symbol VARCHAR(10),"
                         + "owner_id INT,"
                         + "date DATETIME,"
+                        + "price DOUBLE,"
                         + "FOREIGN KEY (owner_id) REFERENCES users(id) );"
                     )
             
-            db.execute("INSERT INTO history (shares,symbol,owner_id,date) VALUES (?,?,?,CURRENT_TIMESTAMP)", int(shares) , symbol , session["user_id"] )
+            db.execute("INSERT INTO history (shares,symbol,owner_id,date,price) VALUES (?,?,?,CURRENT_TIMESTAMP,?)", int(shares) , symbol , session["user_id"],search["price"] )
             
             flash("Buyed!")
             return redirect("/")

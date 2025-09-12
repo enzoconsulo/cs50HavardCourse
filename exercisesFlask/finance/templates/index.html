@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    
+    {% if noQuotes == True %}
+
+        <h1>
+            <img alt="buy quotes now" class="border img-fluid" src="https://api.memegen.link/images/custom/noquotes/BuyNow.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=200" title="buyquotesnow">
+        </h1>
+
+    {% else %}
+
+        <table class="table table-striped">
+            <thead>
+                <h5>Actual Cash: {{cash}} </h5>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for quote in quotes%}
+                    <tr>
+                        <th>  {{quote["symbol"]}}  </th>
+                        <td>  {{quote["shares"]}}  </td>
+                        <td>  {{quote["price"]}}  </td>
+                        <td>  {{quote["total"]}}  </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+            <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <th>TOTAL: </th>
+                        <th>{{totalQuotesPrice}}</th>
+                    </tr>
+            </tfoot>
+
+        </table>
+    {% endif %}
+        
+{% endblock %}
