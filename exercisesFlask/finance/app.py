@@ -257,12 +257,12 @@ def register():
         username = request.form.get("username")
         password = request.form.get("password")
         
-        print(username,password)
         
         try:
-            db.execute("INSERT INTO users (username,hash) VALUES (?,?)",username,generate_password_hash(password))
-            flash("Account was succesfully created ! go Log In now!")
-            return redirect("/register")
+            id = db.execute("INSERT INTO users (username,hash) VALUES (?,?)",username,generate_password_hash(password))
+            flash("Account was succesfully created !")
+            session["user_id"] = id
+            return redirect("/")
         except:
             flash("This username is already used ! ")
             return redirect("/register")
