@@ -10,11 +10,19 @@
             <h5>Sell a Quote:</h5>
 
             <select name="quoteselect" id="quoteselect" class="form-control mx-auto w-auto" autofocus>
-                <option value="symbol" disabled selected >Select a Symbol</option>
 
-                {% for symbol in symbols %}
-                    <option value="{{symbol["symbol"]}}">{{symbol["symbol"]}}</option>
-                {% endfor %}
+                {% if symbols %}
+
+                    <option value="symbol" disabled selected >Select a Symbol</option>
+                    {% for symbol in symbols %}
+                        <option value="{{symbol["symbol"]}}">{{symbol["symbol"].upper()}}</option>
+                    {% endfor %}
+
+                {% else %}
+                    <option value="symbol" disabled selected >You have no quotes</option>
+                    <option value="symbol" disabled >Go buy!</option>
+
+                {% endif %}
                 
             </select>
 

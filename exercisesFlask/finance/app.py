@@ -138,10 +138,11 @@ def buy():
                         + "owner_id INT,"
                         + "date DATETIME,"
                         + "price DOUBLE,"
+                        + "type VARCHAR(4),"
                         + "FOREIGN KEY (owner_id) REFERENCES users(id) );"
                     )
             
-            db.execute("INSERT INTO history (shares,symbol,owner_id,date,price) VALUES (?,?,?,CURRENT_TIMESTAMP,?)", int(shares) , symbol , session["user_id"],search["price"] )
+            db.execute("INSERT INTO history (shares,symbol,owner_id,date,price,type) VALUES (?,?,?,CURRENT_TIMESTAMP,?,?)", int(shares) , symbol , session["user_id"],search["price"],"BUY" )
             
             flash("Buyed!")
             return redirect("/")
@@ -158,7 +159,13 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    return apology("TODO")
+    
+    search = db.execute("SELECT * FROM history WHERE owner_id = ?",session["user_id"])
+    for quote in search:
+        quote["total"] = usd(float(quote["price"]) * int(quote["shares"]))
+        quote["price"] = usd(quote["price"])
+        
+    return render_template("history.html",quotes = search)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -278,34 +285,36 @@ def sell():
     if request.method == "POST":
         symbol = request.form.get("quoteselect")
         sellingshares = request.form.get("shares")
-        
-        actualshares = db.execute("SELECT shares,price FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
-        
-        newshares = actualshares[0]["shares"] - int(sellingshares)
-        print(newshares)
-        
-        if(newshares >= 0):
-            if newshares == 0:
-                # remove the row from this symbol to clean quote table bcs will be "0". So no quote has left
-                db.execute("DELETE FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
-            else:
-                # remove from quotes the amount to sell
-                db.execute("UPDATE quote SET shares = ? WHERE symbol = ? AND owner_id = ?",newshares,symbol,session["user_id"])
+        try:
+            actualshares = db.execute("SELECT shares,price FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
+            
+            newshares = actualshares[0]["shares"] - int(sellingshares)
+            
+            if(newshares >= 0):
+                if newshares == 0:
+                    # remove the row from this symbol to clean quote table bcs will be "0". So no quote has left
+                    db.execute("DELETE FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
+                else:
+                    # remove from quotes the amount to sell
+                    db.execute("UPDATE quote SET shares = ? WHERE symbol = ? AND owner_id = ?",newshares,symbol,session["user_id"])
 
-            # update the cash/balance adding the sellingPrice
-            sellingPrice = float(sellingshares)*actualshares[0]["price"]
-            db.execute("UPDATE users SET cash = cash + ? WHERE id = ?",sellingPrice,session["user_id"])
-            
-            
-            flash(f"Sucess! You sold {usd(sellingPrice)} : {int(sellingshares)} '{symbol}' quotes {usd(actualshares[0]["price"])} each")
-            return redirect("/")
-            ## TODO redirecionar par a parina principal e atualizar o saldo
-            
-            
-        else:
-            flash("Insuficient quotes to sell")
+                # update the cash/balance adding the sellingPrice
+                sellingPrice = float(sellingshares)*actualshares[0]["price"]
+                db.execute("UPDATE users SET cash = cash + ? WHERE id = ?",sellingPrice,session["user_id"])
+                
+                
+                db.execute("INSERT INTO history (shares,symbol,owner_id,date,price,type) VALUES (?,?,?,CURRENT_TIMESTAMP,?,?)", int(sellingshares) , symbol , session["user_id"],actualshares[0]["price"],"SELL" )
+                flash(f"Sucess! You sold {usd(sellingPrice)} : {int(sellingshares)} '{symbol.upper()}' quotes {usd(actualshares[0]["price"])} each")
+                return redirect("/")
+                
+                
+            else:
+                flash("Insuficient quotes to sell")
+                return redirect("/sell")
+
+        except: 
+            flash("Action is not possible")
             return redirect("/sell")
-            ## TODO dizer que nao tem quotas suficientes para vender
         
     
     search = db.execute("SELECT symbol FROM quote WHERE owner_id = ?", session["user_id"])

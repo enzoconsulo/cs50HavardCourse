@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th>Operation</th>
+                <th>Date</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for quote in quotes%}
+            
+                {% if quote["type"] == "BUY" %}
+                    <tr class="table-primary">
+                        <th>  {{quote["symbol"]}}  </th>
+                        <td>  {{quote["shares"]}}  </td>
+                        <td>  {{quote["price"]}}  </td>
+                        <td>  {{quote["total"]}}  </td>
+                        <td>  {{quote["type"]}}  </td>
+                        <td>  {{quote["date"]}}  </td>
+                    </tr>
+                {% else %}
+                    <tr class="table-danger">
+                        <th>  {{quote["symbol"]}}  </th>
+                        <td> - {{quote["shares"]}}  </td>
+                        <td>  {{quote["price"]}}  </td>
+                        <td>  {{quote["total"]}}  </td>
+                        <td>  {{quote["type"]}}  </td>
+                        <td>  {{quote["date"]}}  </td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </tbody>
+
+    </table>
+        
+{% endblock %}
