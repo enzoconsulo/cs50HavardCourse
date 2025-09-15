@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell a Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="post">
+        <div>
+            <h5>Sell a Quote:</h5>
+
+            <select name="quoteselect" id="quoteselect" class="form-control mx-auto w-auto" autofocus>
+                <option value="symbol" disabled selected >Select a Symbol</option>
+
+                {% for symbol in symbols %}
+                    <option value="{{symbol["symbol"]}}">{{symbol["symbol"]}}</option>
+                {% endfor %}
+                
+            </select>
+
+        </div>
+        
+        <div>
+            <br>
+            <input name="shares" type="text" class="form-control mx-auto w-auto" placeholder="Shares" autocomplete="off" >
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Sell</button>
+        
+    </form>
+
+{% endblock %}

@@ -274,6 +274,39 @@ def register():
 @login_required
 def sell():
     """Sell shares of stock"""
-    return apology("TODO")
-
     
+    if request.method == "POST":
+        symbol = request.form.get("quoteselect")
+        sellingshares = request.form.get("shares")
+        
+        actualshares = db.execute("SELECT shares,price FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
+        
+        newshares = actualshares[0]["shares"] - int(sellingshares)
+        print(newshares)
+        
+        if(newshares >= 0):
+            if newshares == 0:
+                # remove the row from this symbol to clean quote table bcs will be "0". So no quote has left
+                db.execute("DELETE FROM quote WHERE symbol = ? AND owner_id = ?",symbol,session["user_id"])
+            else:
+                # remove from quotes the amount to sell
+                db.execute("UPDATE quote SET shares = ? WHERE symbol = ? AND owner_id = ?",newshares,symbol,session["user_id"])
+
+            # update the cash/balance adding the sellingPrice
+            sellingPrice = float(sellingshares)*actualshares[0]["price"]
+            db.execute("UPDATE users SET cash = cash + ? WHERE id = ?",sellingPrice,session["user_id"])
+            
+            
+            flash(f"Sucess! You sold {usd(sellingPrice)} : {int(sellingshares)} '{symbol}' quotes {usd(actualshares[0]["price"])} each")
+            return redirect("/")
+            ## TODO redirecionar par a parina principal e atualizar o saldo
+            
+            
+        else:
+            flash("Insuficient quotes to sell")
+            return redirect("/sell")
+            ## TODO dizer que nao tem quotas suficientes para vender
+        
+    
+    search = db.execute("SELECT symbol FROM quote WHERE owner_id = ?", session["user_id"])
+    return render_template("sell.html",symbols = search)
